@@ -1,0 +1,46 @@
+
+#colorPreview
+{
+    color: red;
+    background-color: black;
+    width: 100%;
+    height: width(56.25%);
+    margin: auto;
+    text-align: center;
+    border-radius: 5% 5% 5% 5%;
+    vertical-align: middle;
+}
+
+#colorsContainer
+{
+    width: 100%;
+    flow: grid(1 2 3 4,
+               5 6 7 8);
+    gap: 30dip;
+}
+
+
+#noColorUnit
+{
+    text-align: center;
+    vertical-align: middle;
+    background: black;
+    color: red;
+    size:*;
+    height: auto;
+    border-radius: 10% 10% 10% 10%;
+    margin: 1%;
+}
+
+#addColorButton
+{
+    text-align: center;
+    vertical-align: middle;
+    color:black;
+    size:*;
+    height: width(56.25%);
+    background:gray;
+    border-radius: 10% 10% 10% 10%;
+    font-size: large;
+    prototype: AddColorButton url(AddColorButton.tis);
+}
