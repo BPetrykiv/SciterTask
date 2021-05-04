@@ -1,0 +1,25 @@
+class ColorsContainer : Element
+{
+    function attached() {
+        self.on("colorAdded", function(evt) {
+            var index = $(#colorsContainer).length - 1;
+            $(#colorsContainer).insert("<div #colorButton></div>", index);
+            $(#colorsContainer)[index].style#background-color=evt.data.color;
+            $(#colorsContainer)[index].style#active=false;
+        });
+
+        self.on("selectedColorChanged", function(evt) {
+            if (evt.data.index != this.selectedIndex)
+            {
+                $(#colorsContainer)[selectedIndex].style#active=false;
+                $(#colorsContainer)[evt.data.index].style#active=true;
+                selectedIndex = evt.data.index;
+            }
+        });
+
+         $(#colorsContainer)[selectedIndex].style#active=true;
+    }
+
+
+    var selectedIndex = 0;
+}

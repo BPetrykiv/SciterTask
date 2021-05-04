@@ -1,0 +1,8 @@
+class Preview : Element
+{
+    function attached() {
+        self.on("selectedColorChanged", function(evt) {
+            $(#colorPreview).style#background-color=evt.data.color;
+        });
+    }
+}
