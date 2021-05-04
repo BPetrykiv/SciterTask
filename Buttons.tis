@@ -56,8 +56,8 @@ class ColorButton : Element
 {
     function attached()
     {
-        // this.onClick = function() {
-        //     self.postEvent("selectedColorChanged", {index : })
-        // };   
+        this.onClick = function() {
+            self.postEvent("selectedColorChanged", {index : this.id.toInteger()});
+        };   
     }
 }

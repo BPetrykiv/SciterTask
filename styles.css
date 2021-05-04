@@ -48,7 +48,7 @@ html, body {
     prototype: AddColorButton url(Buttons.tis);
 }
 
-#colorButton {
+.colorButton {
     size:*;
     height: width(56.25%);
     border-radius: 10% 10% 10% 10%;
