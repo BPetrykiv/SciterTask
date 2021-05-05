@@ -1,21 +1,38 @@
 class ColorsContainer : Element
 {
     function attached() {
-        self.on("colorAdded", function(evt) {
-            var index = $(#colorsContainer).length - 1;
-            var div = String.printf("<div id='%i' class='colorButton'/>", index);
-            $(#colorsContainer).insert(div, index);
-            $(#colorsContainer)[index].style#background-color=evt.data.color;
-            $(#colorsContainer)[index].active=false;
-        });
+        self.on("colorAdded", this.onColorAdded);
+        self.on("selectedColorChanged", this.onSelectedColorChanged);
 
-        self.on("selectedColorChanged", function(evt) {
-            $(#colorsContainer)[selectedIndex].attributes.removeClass("selected");
-            $(#colorsContainer)[evt.data.index].attributes.addClass("selected");
-            selectedIndex = evt.data.index;
-        });
+        $(#colorsContainer).insert(String.printf("<div id='%s' class='noColorButton selected'>No Color</div>", String.UID()), 0);
+    }
 
-         $(#colorsContainer)[selectedIndex].attributes.addClass("selected");
+    function indexOf(id) {
+        var index = 0;
+        for (var button in $(#colorsContainer)){
+            if (button.id == id) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    function onSelectedColorChanged(evt)
+    {
+        $(#colorsContainer)[selectedIndex].attributes.removeClass("selected");
+        var index = indexOf(evt.data.id);
+        if (index >= 0)
+        {
+            $(#colorsContainer)[index].attributes.addClass("selected");
+            selectedIndex = index;
+        }
+    }
+
+    function onColorAdded(evt) {
+        var index = $(#colorsContainer).length - 1;
+        $(#colorsContainer).insert(String.printf("<div id='%s' class='colorButton'/>", String.UID()), index);
+        $(#colorsContainer)[index].style#background-color=evt.data.color;
     }
 
     var selectedIndex = 0;

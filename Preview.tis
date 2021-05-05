@@ -2,7 +2,10 @@ class Preview : Element
 {
     function attached() {
         self.on("selectedColorChanged", function(evt) {
-            $(#colorPreview).style#background-color=$(#colorsContainer)[evt.data.index].style#background-color;
+            var index = $(#colorsContainer).indexOf(evt.data.id);
+            if (index >= 0) {
+                $(#colorPreview).style#background-color=$(#colorsContainer)[index].style#background-color;
+            }
         });
     }
 }

@@ -25,7 +25,7 @@ class CloseButton : Element
 {
     function attached()
     {
-        this.onClick = function(){
+        this.onClick = function() {
             
         }
     }
@@ -57,7 +57,7 @@ class ColorButton : Element
     function attached()
     {
         this.onClick = function() {
-            self.postEvent("selectedColorChanged", {index : this.id.toInteger()});
+            self.postEvent("selectedColorChanged", {id : this.id});
         };   
     }
 }
