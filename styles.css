@@ -58,6 +58,10 @@ html, body {
     prototype: ColorButton url(Buttons.tis);
 }
 
+.selected {
+  border: 1px solid black;
+}
+
 #colorPickerPopup {
     display: none;
     position: fixed;

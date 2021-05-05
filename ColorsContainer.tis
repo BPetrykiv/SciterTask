@@ -10,15 +10,12 @@ class ColorsContainer : Element
         });
 
         self.on("selectedColorChanged", function(evt) {
-            if (evt.data.index != this.selectedIndex)
-            {
-                $(#colorsContainer)[selectedIndex].active=false;
-                $(#colorsContainer)[evt.data.index].active=true;
-                selectedIndex = evt.data.index;
-            }
+            $(#colorsContainer)[selectedIndex].attributes.removeClass("selected");
+            $(#colorsContainer)[evt.data.index].attributes.addClass("selected");
+            selectedIndex = evt.data.index;
         });
 
-         $(#colorsContainer)[selectedIndex].active=true;
+         $(#colorsContainer)[selectedIndex].attributes.addClass("selected");
     }
 
     var selectedIndex = 0;
