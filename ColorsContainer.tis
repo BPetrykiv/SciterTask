@@ -3,6 +3,7 @@ class ColorsContainer : Element
     function attached() {
         self.on("colorAdded", this.onColorAdded);
         self.on("selectedColorChanged", this.onSelectedColorChanged);
+        self.on("colorRemoved", this.onColorRemoved);
 
         $(#colorsContainer).insert(String.printf("<div id='%s' class='noColorButton selected'>No Color</div>", String.UID()), 0);
     }
@@ -20,19 +21,49 @@ class ColorsContainer : Element
 
     function onSelectedColorChanged(evt)
     {
-        $(#colorsContainer)[selectedIndex].attributes.removeClass("selected");
+        deselect(selectedIndex);
         var index = indexOf(evt.data.id);
-        if (index >= 0)
-        {
-            $(#colorsContainer)[index].attributes.addClass("selected");
-            selectedIndex = index;
+        if (index < 0){
+            select(0);
         }
+        else{
+            select(index);
+        }
+    }
+
+    function select(index)
+    {
+        $(#colorsContainer)[index].attributes.addClass("selected");
+        selectedIndex = index;
+    }
+
+    function deselect(index)
+    {
+        $(#colorsContainer)[selectedIndex].attributes.removeClass("selected");
     }
 
     function onColorAdded(evt) {
         var index = $(#colorsContainer).length - 1;
-        $(#colorsContainer).insert(String.printf("<div id='%s' class='colorButton'/>", String.UID()), index);
+        $(#colorsContainer).insert(String.printf("<div id='%s' class='colorButton'>"
+                                                 "<div class='closeButton'>X</div>"
+                                                 "</div>", String.UID()), index);
         $(#colorsContainer)[index].style#background-color=evt.data.color;
+    }
+
+    function onColorRemoved(evt) {
+        var index = indexOf(evt.data.id);
+        if (index == -1){
+            return;
+        }
+
+        if (index < selectedIndex) {
+            selectedIndex--;
+        }
+        else if (index == selectedIndex) {
+            select(index - 1);
+            self.postEvent("selectedColorChanged", {id : $(#colorsContainer)[selectedIndex].id});
+        }
+        $(#colorsContainer)[index].remove();
     }
 
     var selectedIndex = 0;

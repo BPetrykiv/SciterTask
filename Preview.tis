@@ -1,11 +1,13 @@
 class Preview : Element
 {
     function attached() {
-        self.on("selectedColorChanged", function(evt) {
-            var index = $(#colorsContainer).indexOf(evt.data.id);
-            if (index >= 0) {
-                $(#colorPreview).style#background-color=$(#colorsContainer)[index].style#background-color;
-            }
-        });
+        self.on("selectedColorChanged", this.onSelectedColorChanged);
+    }
+
+    function onSelectedColorChanged(evt){
+        var index = $(#colorsContainer).indexOf(evt.data.id);
+        if (index >= 0) {
+            $(#colorPreview).style#background-color=$(#colorsContainer)[index].style#background-color;
+        }
     }
 }

@@ -26,7 +26,8 @@ class CloseButton : Element
     function attached()
     {
         this.onClick = function() {
-            
+            self.postEvent("colorRemoved", {id : this.parent.id});
+            return true;
         }
     }
 }

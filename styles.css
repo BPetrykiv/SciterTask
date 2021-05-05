@@ -59,6 +59,17 @@ html, body {
     prototype: ColorButton url(Buttons.tis);
 }
 
+.closeButton {
+    margin: 5dip;
+    width: 5%;
+    height: 5%;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left:*;
+    prototype: CloseButton url(Buttons.tis);
+}
+
 .selected {
   border: 3px solid black;
 }
