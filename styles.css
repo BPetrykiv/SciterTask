@@ -1,11 +1,6 @@
 
-html, body {
-    margin: 5dip; 
-    overflow: visible
-}
-
 #colorPreview {
-    width: 100%;
+    width: *;
     height: width(56.25%);
     border-radius: 5%;
     color: red;
@@ -16,7 +11,7 @@ html, body {
 }
 
 #colorsContainer {
-    width: 100%;
+    width: *;
     flow: grid(1 2 3 4,
                5 6 7 8);
     gap: 30dip;
@@ -52,35 +47,48 @@ html, body {
 .colorButton {
     size:*;
     height: width(56.25%);
-    border-radius: 10% 10% 10% 10%;
+    border-radius: 10%;
+    padding: 5dip;
+    /* box-shadow: 5px 5px 2px #888888; */
     margin: 1%;
     text-align: center;
-    vertical-align: middle;
+    position: relative;
     prototype: ColorButton url(Buttons.tis);
 }
 
 .closeButton {
-    margin: 5dip;
-    width: 5%;
-    height: 5%;
-    color: black;
+    border: 2dip solid grey;
+    background-color: transparent;
+    color: grey;
     font-weight: bold;
     cursor: pointer;
-    margin-left:*;
+    top: -5dip;
+    right: -5dip;
+    position: absolute;
     prototype: CloseButton url(Buttons.tis);
 }
 
+.closeButton:hover {
+  color:black;
+}
+
 .selected {
-  border: 3px solid black;
+  border: 2dip solid black;
 }
 
 #colorPickerPopup {
     display: none;
     position: fixed;
     bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
+    right: 15dip;
+    border: 2dip solid #f1f1f1;
     z-index: 9;
+}
+
+#dataRecoverPopup {
+    display: none;
+    position: absolute;
+    background-color: rgba(22,22,22,0.5);
 }
 
 widget[type=hsv] {
@@ -91,36 +99,36 @@ widget[type=hsv] {
   }
 
 widget[type=hsv] > input.hue
-  {
+{
     display:block; 
     border:none;
     height: 3dip;
     width:182dip;
     margin:0 *;
     background: linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
-  }
+}
 
 widget[type=hsv] > div.layers { 
     size:180dip;
     flow:stack;
     margin:*;
-  }
+}
 
 widget[type=hsv] > div.layers > div.value {
     size:*;
     background: linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 1%, rgba(0,0,0,1.0) 100%); 
-  }
+}
 widget[type=hsv] > div.layers > div.saturation {
     size:*;
     background: linear-gradient(to right, color(hue) 0%, #ffffff 100%); 
-  }
+}
 
 widget[type=hsv] > div.layers > div.pointer {
     border:2dip solid #fff;
     size:7dip;
     transform: translate(-50%,-50%);
     border-radius:50%;
-  }
+}
 
 #selectColorButton, #cancelButton {
     display:inline-block;

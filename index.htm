@@ -3,6 +3,17 @@
     <meta charset="UTF-8">
     <title>Color</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/tiscript">
+      const DEFAULT_WIDTH = 600dip;
+      
+      var (sx,sy,sw,sh) = View.screenBox(0,#workarea,#rectw);
+      
+      var w = self.toPixels(DEFAULT_WIDTH, #width);
+      var h = self.intrinsicHeight(w);
+      
+      view.move( sx + (sw - w) / 2, sy + (sh - h) / 2, w,h, true );
+      view.windowAspectRatio = 16/9;
+  </script>
 </head>     
 <body>
     <div #colorPreview>Color Preview</div>
@@ -23,8 +34,13 @@
       <div #cancelButton>Cancel</div>
     </div>
 
+    <div #dataRecoverPopup>
+      <h2>Data was not recovered</h2>
+    </div>
+
 </body>
 </html>
 
 
 <!-- TODO: serialization -->
+<!-- TODO:style for close button, style for seletion -->

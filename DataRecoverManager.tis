@@ -1,0 +1,27 @@
+class DataRecoverManager
+{
+    const filename = "colors.json";
+
+    async function runDataRecovery()
+    {
+       await doDataRecovery();
+    }
+
+
+    function doDataRecovery()
+    {
+        var stream = Stream.openFile(filename, "r");
+        var jsonData = null;
+        if (stream != null) {
+            jsonData = parseData(stream);
+        }
+
+        setTimeout(() => {
+            self.postEvent("dataRecovered", {html: data});
+        }, 10000);
+    }
+
+
+
+
+}

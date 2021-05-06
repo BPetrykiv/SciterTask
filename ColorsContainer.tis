@@ -1,11 +1,16 @@
+include "DataRecoverManager.tis"
+
+
 class ColorsContainer : Element
 {
     function attached() {
         self.on("colorAdded", this.onColorAdded);
         self.on("selectedColorChanged", this.onSelectedColorChanged);
         self.on("colorRemoved", this.onColorRemoved);
+        self.on("dataRecovered", this.onDataRecovered);
 
         $(#colorsContainer).insert(String.printf("<div id='%s' class='noColorButton selected'>No Color</div>", String.UID()), 0);
+        DataRecoverManager.runDataRecovery();
     }
 
     function indexOf(id) {
@@ -64,6 +69,10 @@ class ColorsContainer : Element
             self.postEvent("selectedColorChanged", {id : $(#colorsContainer)[selectedIndex].id});
         }
         $(#colorsContainer)[index].remove();
+    }
+
+    function onDataRecovered(evt) {
+        $(#colorsContainer).popup($(#dataRecoverPopup), 2);
     }
 
     var selectedIndex = 0;
