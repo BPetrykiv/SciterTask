@@ -1,0 +1,21 @@
+class Body : Element
+{
+    function attached()
+    {
+        view.on("size", function()
+        {
+            var height = $(#colorsContainer).box(#height);
+            if (height < 100)
+            {
+                $(#colorsContainer).attributes.addClass("rowLayout");
+                $(#colorsContainer).attributes.removeClass("gridLayout");
+            }
+            else
+            {
+                $(#colorsContainer).attributes.removeClass("rowLayout");
+                $(#colorsContainer).attributes.addClass("gridLayout");
+            }
+
+        });
+    }
+}
