@@ -1,0 +1,38 @@
+
+class DataRecoveryManager
+{
+    const filename = "colors.json";
+
+    function recovery()
+    {
+        var stream = Stream.openFile(filename, "r");
+        return stream ? parseData(stream) : null;
+    }
+
+
+    function save(data) {
+        var stream = Stream.openFile(filename, "w");
+        if (stream)
+        {   
+            var jsonOutput = JSON.stringify(this.convertToArray(data));
+            stream.print(jsonOutput);
+            stream.close();
+        }
+    }
+
+
+    function convertToArray(htmlData)
+    {
+        var array = [];
+        for (var i = 0; i < htmlData.length; ++i)
+        {
+            array.push({
+                id: htmlData[i].id,
+                color: htmlData[i].style#background-color.toString(),
+                selected: htmlData[i].attributes.hasClass("selected")
+            });
+        }
+
+        return array;
+    }
+}

@@ -1,16 +1,26 @@
-include "DataRecoverManager.tis"
+include "DataRecoveryManager.tis";
 
 
 class ColorsContainer : Element
 {
+    const colorElementPattern = "<div id='%s' class='colorButton'>"
+                                "<div class='closeButton'>X</div>"
+                                "</div>";
+
     function attached() {
         self.on("colorAdded", this.onColorAdded);
         self.on("selectedColorChanged", this.onSelectedColorChanged);
         self.on("colorRemoved", this.onColorRemoved);
-        self.on("dataRecovered", this.onDataRecovered);
+        view.on("closing", this.onClosing);
 
         $(#colorsContainer).insert(String.printf("<div id='%s' class='noColorButton selected'>No Color</div>", String.UID()), 0);
-        DataRecoverManager.runDataRecovery();
+        this.onDataRecovered(DataRecoveryManager.recovery());                   // should start and execute async!
+    }
+
+    function onClosing()
+    {
+        var children = $(#colorsContainer).selectAll(".colorButton");
+        DataRecoveryManager.save(children);
     }
 
     function indexOf(id) {
@@ -26,32 +36,33 @@ class ColorsContainer : Element
 
     function onSelectedColorChanged(evt)
     {
-        deselect(selectedIndex);
+        deselect();
         var index = indexOf(evt.data.id);
         if (index < 0){
             select(0);
         }
         else{
-            select(index);
+            select(index, false);
         }
     }
 
-    function select(index)
+    function select(index, notify)
     {
         $(#colorsContainer)[index].attributes.addClass("selected");
         selectedIndex = index;
+        if (notify)
+            self.postEvent("selectedColorChanged", {id : $(#colorsContainer)[selectedIndex].id});
     }
 
-    function deselect(index)
+    function deselect()
     {
         $(#colorsContainer)[selectedIndex].attributes.removeClass("selected");
+        selectedIndex = -1;
     }
 
     function onColorAdded(evt) {
         var index = $(#colorsContainer).length - 1;
-        $(#colorsContainer).insert(String.printf("<div id='%s' class='colorButton'>"
-                                                 "<div class='closeButton'>X</div>"
-                                                 "</div>", String.UID()), index);
+        $(#colorsContainer).insert(String.printf(colorElementPattern, String.UID()), index);
         $(#colorsContainer)[index].style#background-color=evt.data.color;
     }
 
@@ -65,15 +76,23 @@ class ColorsContainer : Element
             selectedIndex--;
         }
         else if (index == selectedIndex) {
-            select(index - 1);
-            self.postEvent("selectedColorChanged", {id : $(#colorsContainer)[selectedIndex].id});
+            select(index - 1, true);
         }
         $(#colorsContainer)[index].remove();
     }
 
-    function onDataRecovered(evt) {
-        $(#colorsContainer).popup($(#dataRecoverPopup), 2);
+    function onDataRecovered(jsonData) 
+    {
+        for (var (idx, elem) in jsonData)
+        {
+            $(#colorsContainer).insert(String.printf(colorElementPattern, String.UID()), idx+1);
+            $(#colorsContainer)[idx+1].style#background-color=elem.color;
+            if (elem.selected)
+            {
+                deselect();
+                select(idx+1, true);
+            }
+        }
     }
-
     var selectedIndex = 0;
 }
