@@ -13,7 +13,7 @@ class ColorsContainer : Element
         self.on("colorRemoved", this.onColorRemoved);
         view.on("closing", this.onClosing);
 
-        $(#colorsContainer).insert(String.printf("<div id='%s' class='noColorButton selected'>No Color</div>", String.UID()), 0);
+        $(#colorsContainer).prepend(String.printf("<div id='%s' class='noColorButton selected'>No Color</div>", String.UID()));
         this.onDataRecovered(DataRecoveryManager.recovery());                   // should start and execute async!
     }
 
@@ -24,26 +24,23 @@ class ColorsContainer : Element
     }
 
     function indexOf(id) {
-        var index = 0;
-        for (var button in $(#colorsContainer)){
+        for (var (idx, button) in $(#colorsContainer)) {
             if (button.id == id) {
-                return index;
+                return idx;
             }
-            index++;
         }
         return -1;
     }
 
     function onSelectedColorChanged(evt)
     {
-        deselect();
         var index = indexOf(evt.data.id);
-        if (index < 0){
-            select(0);
+        if (index == selectedIndex || index < 0){
+            return;
         }
-        else{
-            select(index, false);
-        }
+
+        deselect();
+        select(index, false);
     }
 
     function select(index, notify)
@@ -62,13 +59,18 @@ class ColorsContainer : Element
 
     function onColorAdded(evt) {
         var index = $(#colorsContainer).length - 1;
+        insertElement(index, evt.data.color);
+    }
+
+    function insertElement(index, color)
+    {
         $(#colorsContainer).insert(String.printf(colorElementPattern, String.UID()), index);
-        $(#colorsContainer)[index].style#background-color=evt.data.color;
+        $(#colorsContainer)[index].style#background-color=color;
     }
 
     function onColorRemoved(evt) {
         var index = indexOf(evt.data.id);
-        if (index == -1){
+        if (index < 0) {
             return;
         }
 
@@ -85,12 +87,11 @@ class ColorsContainer : Element
     {
         for (var (idx, elem) in jsonData)
         {
-            $(#colorsContainer).insert(String.printf(colorElementPattern, String.UID()), idx+1);
-            $(#colorsContainer)[idx+1].style#background-color=elem.color;
+            insertElement(idx + 1, elem.color);
             if (elem.selected)
             {
                 deselect();
-                select(idx+1, true);
+                select(idx + 1, true);
             }
         }
     }
